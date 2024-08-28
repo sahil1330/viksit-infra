@@ -13,15 +13,23 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h1 class="text-center">Login</h1>
+                <h1 class="text-center">Register as a Company</h1>
                 <form action="login.php" method="POST">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="aadhar_no" class="form-label">Registered Aadhar No </label>
-                        <input type="number" class="form-control" id="aadhar_no" name="email" required>
+                        <label for="b_pan" class="form-label">Business PAN No </label>
+                        <input type="text" class="form-control" id="b_pan" name="b_pan" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fin_record" class="form-label">Financial Records of the Company</label>
+                        <input type="file" class="form-control" id="fin_record" name="fin_record" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tech_record" class="form-label">Financial Records of the Company</label>
+                        <input type="file" class="form-control" id="tech_record" name="tech_record" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
