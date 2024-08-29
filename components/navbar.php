@@ -1,12 +1,20 @@
 <?php
 $loggedIn = false; // Initialize the variable
 session_start();
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-  $loggedIn = true;
+if (isset($_SESSION['criticloggedin']) && $_SESSION['criticloggedin'] == true) {
+  $criticloggedIn = true;
   $username = $_SESSION['username'];
   $displayName = $_SESSION['Name'];
   $role = $_SESSION['role'];
   $critic_score = $_SESSION['critic-score'];
+  $email = $_SESSION['email'];
+}
+if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true) {
+  $companyloggedIn = true;
+  $username = $_SESSION['username'];
+  $displayName = $_SESSION['Name'];
+  $role = $_SESSION['role'];
+  $company_marks = $_SESSION['company_marks'];
   $email = $_SESSION['email'];
 }
 ?>
@@ -42,7 +50,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
           <?php
         } else { ?>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="login-critic.php">Login/Signup</a>
+            <a class="nav-link active" aria-current="page" href="login.php">Login/Signup</a>
           </li><?php }
         ?>
       </ul>

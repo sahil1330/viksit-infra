@@ -12,7 +12,7 @@ try {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 session_start();
-                $_SESSION['loggedin'] = true;
+                $_SESSION['criticloggedin'] = true;
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['Name'] = $row['displayName'];
                 $_SESSION['role'] = $row['role'];

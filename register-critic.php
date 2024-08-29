@@ -1,4 +1,6 @@
 <?php
+$showAlert = false;
+$showError = false;
 if (isset($_POST['register-critic'])) {
     try {
         require "db/dbconnect.php";
@@ -14,7 +16,7 @@ if (isset($_POST['register-critic'])) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $sql = "INSERT INTO users (username, displayName, role, aadharCard, email, password, critic_score, createdAt) VALUES ('$username', '$displayName', '$role', '$aadhar', '$email', '$hashedPassword', '$critic_score', current_time)";
             if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
+                $showAlert = "New record created successfully";
                 session_start();
                 $_SESSION["loggedin"] = true;
                 $_SESSION['username'] = $username;
@@ -24,10 +26,10 @@ if (isset($_POST['register-critic'])) {
                 $_SESSION['email'] = $email;
                 header('location: index.php');
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                $showError = "Error: " . $sql . "<br>" . $conn->error;
             }
         } else {
-            echo "Passwords do not match";
+            $showError = "Passwords do not match";
         }
     } catch (\Throwable $th) {
         // error message to be logged
@@ -57,6 +59,19 @@ if (isset($_POST['register-critic'])) {
 </head>
 
 <body>
+    <?php include 'components/navbar.php'; ?>
+    <?php
+    if ($showAlert) { ?>
+        <div class="alert alert-success" role="alert">
+            <?php echo $showAlert; ?>
+        </div><?php
+    }
+    if ($showError) { ?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $showError; ?>
+        </div> <?php
+    }
+    ?>
     <h1 class="text-center my-4">Register as Critic</h1>
     <form action="" class="col-8 mx-auto" method="POST">
         <div class="mb-3">
