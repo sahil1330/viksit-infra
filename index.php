@@ -61,8 +61,8 @@
     ?>
 
     <?php
-    if ($companyloggedIn) {
-        ?>
+    if ($adminloggedIn) {
+    ?>
         <div style="display: flex; justify-content: center;">
             <a href="make-blog.php">
                 <button type="button" class="btn btn-primary mx-auto">Upload Blog</button>

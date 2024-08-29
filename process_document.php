@@ -1,6 +1,13 @@
 <?php
 require 'db/dbconnect.php'; // Include your database connection
 
+// if(isset($_POST['marks'])){
+//     $document_id = $_POST['document_id'];
+//     $action  = $_POST['action'];
+//     $comment = $_POST['comment'];
+//     $verificationStatus = false;
+//     if($action == "verify")
+// }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data
     $projectName = $_POST['projectName'];

@@ -61,7 +61,7 @@ $result = $conn->query($sql);
                                     <td><?php echo htmlspecialchars($row['acceptanceMessage']); ?></td>
                                     <td>
                                         <?php if ($row['verificationStatus'] === 'pending'): ?>
-                                            <form action="process_document.php" method="POST">
+                                            <form action="verify_document.php" method="POST">
                                                 <input type="hidden" name="document_id"
                                                     value="<?php echo htmlspecialchars($row['id']); ?>">
                                                 <div class="mb-3">
@@ -90,7 +90,7 @@ $result = $conn->query($sql);
 
 
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="submit" name="marks_submit" class="btn btn-primary">Submit</button>
                                             </form>
                                         <?php else: ?>
                                             <?php echo ($row['verificationStatus'] === 'rejected') ? 'Rejected' : 'Verified'; ?>
@@ -176,7 +176,7 @@ $result = $conn->query($sql);
                         <textarea class="form-control" id="bidderVerifyingComments" name="bidderVerifyingComments"
                             rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" name="bid" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>

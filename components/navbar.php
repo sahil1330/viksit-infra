@@ -2,6 +2,7 @@
 $loggedIn = false;
 $companyloggedIn = false;
 $criticloggedIn = false; // Initialize the variable
+$adminloggedIn = false;
 session_start();
 if (isset($_SESSION['criticloggedin']) && $_SESSION['criticloggedin'] == true) {
   $criticloggedIn = true;
@@ -19,6 +20,12 @@ if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true)
   $company_marks = $_SESSION['company_marks'];
   $email = $_SESSION['email'];
 }
+if (isset($_SESSION['adminloggedin']) && $_SESSION['adminloggedin'] == true) {
+  $adminloggedIn = true;
+  $username = $_SESSION['username'];
+  $displayName = $_SESSION['Name'];
+  $role = $_SESSION['role'];
+}
 ?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary py-4">
   <div class="container-fluid">
@@ -32,10 +39,12 @@ if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true)
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="index.php">Home</a>
         </li>
-        
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="projects.php">Projects</a>
+        </li>
         <?php
 
-        if ($criticloggedIn || $companyloggedIn) {
+        if ($criticloggedIn || $companyloggedIn || $adminloggedIn) {
           ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -46,7 +55,7 @@ if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true)
               <li><a class="dropdown-item" href="logout.php">Logout</a></li>
             </ul>
           </li>
-         
+
           <?php
         } else { ?>
           <li class="nav-item">
