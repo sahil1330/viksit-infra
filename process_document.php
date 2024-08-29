@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bidExpireAt = $_POST['bidExpireAt'];
 
     // Handle file upload
-    $targetDir = "uploads/";
+    $targetDir = "assets/documents/project-documents/";
     $fileName = basename($_FILES["projectDetails"]["name"]);
     $targetFilePath = $targetDir . $fileName;
     $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
@@ -37,8 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($conn->query($sql) === TRUE) {
             // Notify all users
             notifyUsers($bid);
-
+            
             echo "BID launched successfully and notifications sent.";
+            header("location: gov-dash.html");
         } else {
             echo "Error: " . $conn->error;
         }
@@ -59,7 +60,7 @@ function notifyUsers($bid) {
             $email = $row['email'];
             $subject = "New BID Launched";
             $message = "A new BID has been launched. BID Details: $bid";
-            $headers = "From: no-reply@yourdomain.com";
+            $headers = "From: sahilmane025@gmail.com";
 
             // Send email notification
             mail($email, $subject, $message, $headers);

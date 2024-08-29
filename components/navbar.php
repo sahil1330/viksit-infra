@@ -22,7 +22,6 @@ if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true)
 }
 if (isset($_SESSION['adminloggedin']) && $_SESSION['adminloggedin'] == true) {
   $adminloggedIn = true;
-  $username = $_SESSION['username'];
   $displayName = $_SESSION['Name'];
   $role = $_SESSION['role'];
 }
@@ -39,9 +38,17 @@ if (isset($_SESSION['adminloggedin']) && $_SESSION['adminloggedin'] == true) {
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="index.php">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="projects.php">Projects</a>
+        <?php
+        if($adminloggedIn){
+          ?>
+
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="gov-dash.php">Government Dashboard</a>
         </li>
+        <?php
+        }
+        
+        ?>
         <?php
 
         if ($criticloggedIn || $companyloggedIn || $adminloggedIn) {

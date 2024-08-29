@@ -9,7 +9,7 @@ if (isset($_POST['login-admin'])) {
         $_SESSION['adminloggedin'] = true;
         $_SESSION['Name'] = "admin";
         $_SESSION['role'] = "admin";
-        header('location: index.php');
+        header('location: gov-dash.php');
     } else {
         echo "Invalid password";
     }
