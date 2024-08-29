@@ -1,13 +1,6 @@
 <?php
 require 'db/dbconnect.php'; // Include your database connection
 
-// if(isset($_POST['marks'])){
-//     $document_id = $_POST['document_id'];
-//     $action  = $_POST['action'];
-//     $comment = $_POST['comment'];
-//     $verificationStatus = false;
-//     if($action == "verify")
-// }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data
     $projectName = $_POST['projectName'];
@@ -16,41 +9,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bidValidFrom = $_POST['bidValidFrom'];
     $bidExpireAt = $_POST['bidExpireAt'];
 
-    // Handle file upload
-    $targetDir = "assets/documents/project-documents/";
-    $fileName = basename($_FILES["projectDetails"]["name"]);
-    $targetFilePath = $targetDir . $fileName;
-    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-    // Check if file is a PDF
-    if ($fileType != "pdf") {
-        echo "Sorry, only PDF files are allowed.";
-        exit;
-    }
-
-    // Move the uploaded file to the target directory
-    if (move_uploaded_file($_FILES["projectDetails"]["tmp_name"], $targetFilePath)) {
-        // Insert new project into the database
-        $sql = "INSERT INTO projects (projectName, projectDetails, deadline, bid, bidValidFrom, bidExpireAt) 
+    
+    $projectDetails = $_FILES["projectDetails"]["name"];
+    $projectDetailsTmp = $_FILES["projectDetails"]["tmp_name"];
+    $projectDetailsSize = $_FILES["projectDetails"]["size"];
+    $projectDetailsError = $_FILES["projectDetails"]["error"];
+    $projectDetailsType = $_FILES["projectDetails"]["type"];
+    $projectDetails_ext = explode('.', $projectDetails);
+    $projectDetails_actual_ext = strtolower(end($projectDetails_ext));
+    if ($projectDetails_actual_ext == "pdf") {
+        if ($projectDetailsError === 0) {
+            if ($projectDetailsSize < 10000000) {
+                $projectDetails_name_new = $projectName . "-project-file" . $projectDetails_actual_ext;
+                $projectDetails_destination = 'assets/documents/project-documents/' . $projectDetails_name_new;
+                move_uploaded_file($projectDetailsTmp, $projectDetails_destination);
+                $sql = "INSERT INTO projects (projectName, projectDetails, deadline, bid, bidValidFrom, bidExpireAt) 
                 VALUES ('$projectName', '$targetFilePath', '$deadline', '$bid', '$bidValidFrom', '$bidExpireAt')";
-
-        if ($conn->query($sql) === TRUE) {
-            // Notify all users
-            notifyUsers($bid);
-            
-            echo "BID launched successfully and notifications sent.";
-            header("location: gov-dash.html");
+                if ($conn->query($sql) === TRUE) {
+                    echo "BID launched successfully and notifications sent.";
+                    header("location: comp_dash.php");
+                } else {
+                    echo "Error: " . $conn->error;
+                }
+            } else {
+                echo "File size too large.";
+            }
         } else {
-            echo "Error: " . $conn->error;
+            echo "Error uploading file";
         }
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        echo "Sorry, Only pdf files are allowed";
     }
 }
 
-function notifyUsers($bid) {
+function notifyUsers($bid)
+{
     global $conn;
-    
+
     // Fetch user emails from the database
     $sql = "SELECT email FROM users"; // Assuming a table 'users' with an 'email' field
     $result = $conn->query($sql);

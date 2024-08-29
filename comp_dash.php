@@ -1,5 +1,5 @@
 <?php
-require 'dbconnect.php'; // Include your database connection
+require 'db/dbconnect.php'; // Include your database connection
 
 // Query to fetch all projects
 $sql = "SELECT * FROM projects";
@@ -58,7 +58,7 @@ $result = $conn->query($sql);
                                     <td><?php echo htmlspecialchars($row['bidExpireAt']); ?></td>
                                     <td>
                                         <?php if (strtotime($row['bidExpireAt']) > time()): ?>
-                                            <form action="comp_to_bid.php" method="post">
+                                            <form action="<?php echo "comp_to_bid.php?project_id=".$row["id"]; ?>" method="post">
                                                 <input type="hidden" name="project_id" value="<?php echo htmlspecialchars($row['id']); ?>">
                                                 <button type="submit" class="btn btn-primary">Bid Now</button>
                                             </form>

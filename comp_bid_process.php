@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Execute the statement
             if ($stmt->execute()) {
                 echo "Bid submitted successfully!";
-                header("location: comp_to_bid.php");
+                header("location: comp_dash.php");
             } else {
                 echo "Error: " . $stmt->error;
             }

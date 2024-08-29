@@ -129,15 +129,14 @@ $result = $conn->query($sql);
                     <h5 class="card-title">Add New Project</h5>
                 </div>
                 <div class="card-body">
-                    <form action="process_project.php" method="post">
+                    <form action="process_document.php" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="projectName" class="form-label">Project Name</label>
                             <input type="text" class="form-control" id="projectName" name="projectName" required>
                         </div>
                         <div class="mb-3">
                             <label for="projectDetails" class="form-label">Project Details (PDF)</label>
-                            <input type="file" class="form-control" id="projectDetails" name="projectDetails" accept=".pdf"
-                                required>
+                            <input type="file" class="form-control" id="projectDetails" name="projectDetails" required>
                         </div>
                         <div class="mb-3">
                             <label for="deadline" class="form-label">Deadline</label>
@@ -159,42 +158,10 @@ $result = $conn->query($sql);
                             <button type="submit" name="action" value="launch_bid" class="btn btn-primary">Launch
                                 BID</button>
                         </div>
-                        <!--BID Reg over -->
-                        <div class="mb-3">
-                            <label for="bidderName" class="form-label">BIDder Name</label>
-                            <input type="text" class="form-control" id="bidderName" name="bidderName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bidderBudget" class="form-label">BIDder Budget</label>
-                            <input type="number" class="form-control" id="bidderBudget" name="bidderBudget" step="0.01"
-                                required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bidderTechnicalData" class="form-label">BIDder Technical Data</label>
-                            <textarea class="form-control" id="bidderTechnicalData" name="bidderTechnicalData" rows="3"
-                                required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bidderNextAudit" class="form-label">BIDder Next Audit</label>
-                            <input type="date" class="form-control" id="bidderNextAudit" name="bidderNextAudit" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bidderVerifyingStatus" class="form-label">Bidder Verifying Status</label>
-                            <select class="form-select" id="bidderVerifyingStatus" name="bidderVerifyingStatus" required>
-                                <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Rejected">Rejected</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bidderVerifyingComments" class="form-label">Bidder Verifying Comments</label>
-                            <textarea class="form-control" id="bidderVerifyingComments" name="bidderVerifyingComments"
-                                rows="3"></textarea>
-                        </div>
-                        <button type="submit" name="bid" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
+
         <?php } ?>
     </div>
 </body>
