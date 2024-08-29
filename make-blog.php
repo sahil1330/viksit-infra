@@ -23,7 +23,7 @@
             $blog_title = $_POST['blog-title'];
             $blog_criteria = $_POST['blog-criteria'];
             $blog_location = $_POST['blog-location'];
-            $blgo_desc = $_POST['blog-desc'];
+            $blog_desc = $_POST['blog-desc'];
             $blog_img = $_FILES['blog-img']['name'];
             $blog_owner = $username;
             $blog_img_temp = $_FILES['blog-img']['tmp_name'];
@@ -32,7 +32,7 @@
             $blog_img_type = $_FILES['blog-img']['type'];
             $blog_img_ext = explode('.', $blog_img);
             $blog_img_actual_ext = strtolower(end($blog_img_ext));
-            $allowed_extensions = array('.jpg', '.jpeg', '.png', '.webp', '.avif');
+            $allowed_extensions = array('jpg', 'jpeg', 'png', 'webp', 'avif');
             if (in_array(strtolower($blog_img_actual_ext), $allowed_extensions)) {
                 if ($blog_img_error === 0) {
                     if ($blog_img_size < 10000000) {
@@ -41,7 +41,7 @@
                         move_uploaded_file($blog_img_temp, $blog_img_destination);
                         $sql = "INSERT INTO blogs (blog_title, blog_desc, criteria, blog_location, blog_image, owner, isPublished, createdAt) VALUES (?, ?, ?, ?, ?, ?, 1, current_timestamp())";
                         $stmt = mysqli_prepare($conn, $sql);
-                        mysqli_stmt_bind_param($stmt, "sssss", $blog_title, $blog_desc, $blog_criteria, $blog_location, $blog_img_name_new, $blog_owner);
+                        mysqli_stmt_bind_param($stmt, "ssssss", $blog_title, $blog_desc, $blog_criteria, $blog_location, $blog_img_name_new, $blog_owner);
                         if (mysqli_stmt_execute($stmt)) {
                             $showAlert = "Blog created successfully";
                         } else {
@@ -60,6 +60,18 @@
         } else {
             echo "Please fill the form and submit";
         }
+    }
+    ?>
+    <?php
+    if ($showAlert) { ?>
+        <div class="alert alert-success" role="alert">
+            <?php echo $showAlert; ?>
+        </div><?php
+    }
+    if ($showError) { ?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $showError; ?>
+        </div> <?php
     }
     ?>
     <h1 class="text-center my-4">Create Blog</h1>

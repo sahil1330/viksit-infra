@@ -25,3 +25,8 @@ Select * from documents;
 DESC blogs;
 ALTER TABLE blogs ADD COLUMN blog_location varchar(255), RENAME COLUMN blo_image TO blog_image;
 ALTER TABLE blogs ADD COLUMN owner varchar(255);
+ALTER TABLE blogs MODIFY COLUMN updatedAt varchar(255) NULL;
+Select * from blogs;
+DESC comments;
+ALTER TABLE comments ADD COLUMN remark varchar(255) NULL;
+Select * from comments;
