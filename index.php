@@ -14,6 +14,64 @@
 
 <body>
     <?php include 'components/navbar.php'; ?>
+
+    <?php
+    $showWarning = false;
+    $showAlert = false;
+    $showError = false;
+    if ($companyloggedIn) {
+        require "db/dbconnect.php";
+        $documentsSql = "Select * from documents where owner='$username'";
+        $result = mysqli_query($conn, $documentsSql);
+        $row = mysqli_fetch_assoc($result);
+        $verificationStatus = $row["verificationStatus"] ?? "pending";
+        if ($verificationStatus == "pending") {
+            $showWarning = "Your documents are under verification. You will be able to pariticipate in bidding and post blogs once your documents are verified.";
+        } else if ($verificationStatus == "verified") {
+            $acceptanceMessage = $row['acceptanceMessage'];
+            $showAlert = $acceptanceMessage;
+        } else if ($verificationStatus == "rejected") {
+            $rejectedMessage = $row["rejectionMessage"];
+            $showError = $rejectedMessage;
+        }
+    }
+    ?>
+    <?php
+    if ($showWarning) {
+        ?>
+        <div class="alert alert-warning" role="alert">
+            <?php echo $showWarning; ?>
+        </div>
+        <?php
+    }
+    if ($showAlert) {
+        ?>
+        <div class="alert alert-success" role="alert">
+            <?php echo $showAlert; ?>
+        </div>
+        <?php
+    }
+    if ($showError) {
+        ?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $showError; ?>
+        </div>
+        <?php
+    }
+    ?>
+
+    <?php
+    if ($companyloggedIn) {
+        ?>
+        <div style="display: flex; justify-content: center;">
+            <a href="upload_blog.php">
+                <button type="button" class="btn btn-primary mx-auto">Upload Blog</button>
+            </a>
+        </div>
+        <?php
+    }
+
+    ?>
     <h1 class="text-center my-4">INFRA TRENDS</h1>
     <div class="container my-4">
         <div class="row mb-4">

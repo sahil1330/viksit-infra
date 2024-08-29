@@ -18,7 +18,7 @@ if (isset($_POST['register-critic'])) {
             if ($conn->query($sql) === TRUE) {
                 $showAlert = "New record created successfully";
                 session_start();
-                $_SESSION["loggedin"] = true;
+                $_SESSION["criticloggedin"] = true;
                 $_SESSION['username'] = $username;
                 $_SESSION['Name'] = $displayName;
                 $_SESSION['role'] = $role;

@@ -1,5 +1,7 @@
 <?php
-$loggedIn = false; // Initialize the variable
+$loggedIn = false;
+$companyloggedIn = false;
+$criticloggedIn = false; // Initialize the variable
 session_start();
 if (isset($_SESSION['criticloggedin']) && $_SESSION['criticloggedin'] == true) {
   $criticloggedIn = true;

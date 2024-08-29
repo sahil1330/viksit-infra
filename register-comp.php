@@ -14,6 +14,7 @@ if (isset($_POST['register-comp'])) {
         $password = $_POST['password'];
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $role = "company";
+        $company_marks = 0;
         $fin_record = $_FILES['fin_record']['name'];
         $fin_record_temp = $_FILES['fin_record']['tmp_name'];
         $fin_record_size = $_FILES['fin_record']['size'];
@@ -38,30 +39,44 @@ if (isset($_POST['register-comp'])) {
                     $tech_record_name_new = $company_username . "-technical-records." . $tech_record_actual_ext;
                     $tech_record_destination = 'assets/documents/project-documents/' . $tech_record_name_new;
                     move_uploaded_file($tech_record_temp, $tech_record_destination);
-                    $sql = "INSERT INTO users (username, displayName, role, email, password, pancard, fin_record, tech_record, createdAt) VALUES ('$company_username', '$company_name', '$role', '$company_email', '$hashedPassword',  '$company_pan', '$fin_record_name_new', '$tech_record_name_new', current_timestamp())";
-                    if ($conn->query($sql) === TRUE) {
-                        $showAlert = "New record created successfully";
-                        session_start();
-                        $_SESSION["loggedin"] = true;
-                        $_SESSION['username'] = $company_username;
-                        $_SESSION['Name'] = $company_name;
-                        $_SESSION['role'] = $role;
-                        $_SESSION['email'] = $company_email;
-                        
-                        header('location: index.php');
+                    $sql = "INSERT INTO users (username, displayName, role, email, password, pancard, fin_record, tech_record, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp())";
+                    $documentsSql = "INSERT INTO documents(owner, pastProjectsDocuments, verificationStatus, createdAt) VALUES (?, ?, 'pending', current_timestamp())";
+                    $stmt = $conn->prepare($sql);
+                    $documentsStmt = $conn->prepare($documentsSql);
+                    if ($stmt && $documentsStmt) {
+                        $stmt->bind_param("ssssssss", $company_username, $company_name, $role, $company_email, $hashedPassword, $company_pan, $fin_record_name_new, $tech_record_name_new);
+                        $documentsStmt->bind_param("ss", $company_username, json_encode([$fin_record_name_new, $tech_record_name_new]));
+                        if ($stmt->execute() && $documentsStmt->execute()) {
+                            $showAlert = "New record created successfully";
+                            session_start();
+                            $_SESSION["companyloggedin"] = true;
+                            $_SESSION['username'] = $company_username;
+                            $_SESSION['Name'] = $company_name;
+                            $_SESSION['role'] = $role;
+                            $_SESSION['email'] = $company_email;
+                            $_SESSION['company_marks'] = $company_marks;
+                            header('location: index.php');
+                        } else {
+                            $showError = "Error: " . $stmt->error;
+                        }
+                        $stmt->close();
+                        $documentsStmt->close();
                     } else {
-                        $showError = "Error: " . $sql . "<br>" . $conn->error;
+                        $showError = "Error preparing statement: " . $conn->error;
                     }
                 } else {
-                    $showError = "File size too large";
+                    $showError = "Error: " . $sql . "<br>" . $conn->error;
                 }
             } else {
-                $showError = "Error uploading file";
+                $showError = "File size too large";
             }
+        } else {
+            $showError = "Error uploading file";
         }
     }
-
 }
+
+
 // } catch (\Throwable $th) {
 //     // error message to be logged
 //     $error_message = "Error in login-critic.php - " . $th->getMessage();

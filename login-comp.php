@@ -1,33 +1,30 @@
 <?php
 try {
-    //code...
-
-    if (isset($_POST['login-critic'])) {
-        require 'db/dbconnect.php';
+    if (isset($_POST['login-comp'])) {
+        require '.private/db/dbconnect.php';
         $user = $_POST['user'];
         $password = $_POST['password'];
-        $sql = "SELECT * FROM users WHERE username='$user' OR email='$user'";
+        $sql = "SELECT * FROM users WHERE username='$user' OR email='$user' OR pancard='$user'";
         $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
+        if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 session_start();
-                $_SESSION['criticloggedin'] = true;
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['Name'] = $row['displayName'];
-                $_SESSION['role'] = $row['role'];
-                $_SESSION['critic-score'] = $row['critic_score'];
-                $_SESSION['email'] = $row['email'];
+                $_SESSION["companyloggedin"] = true;
+                $_SESSION['username'] = $company_username;
+                $_SESSION['Name'] = $company_name;
+                $_SESSION['role'] = $role;
+                $_SESSION['email'] = $company_email;
+                $_SESSION['company_marks'] = $company_marks;
                 header('location: index.php');
             } else {
-                echo "Invalid password";
+                echo "Invalid credentials";
             }
         } else {
-            echo "User not found";
+            echo "Invalid credentials";
         }
     }
 } catch (\Throwable $th) {
-    //throw $th;
     // error message to be logged
     $error_message = "Error in login-critic.php - " . $th->getMessage();
 
@@ -37,6 +34,7 @@ try {
     // logging error message to given log file
     error_log($error_message, 3, $log_file);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,22 +59,22 @@ try {
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <h1 class="text-center">Login</h1>
-                <form action="login-critic.php" method="POST">
+                <form action="login-comp.php" method="POST">
                     <div class="mb-3">
-                        <label for="user" class="form-label">Email address or username</label>
+                        <label for="user" class="form-label">Email address or username or Pan</label>
                         <input type="text" class="form-control" id="user" name="user" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" name="login-critic">Login</button>
+                    <button type="submit" class="btn btn-primary" name="login-comp">Login</button>
                 </form>
             </div>
         </div>
     </div>
     <div class="register-critic">
-        <h4 class="text-center">New User? <a href="register-critic.php">Signup Now</a></h4>
+        <h4 class="text-center">New Company? <a href="register-comp.php">Signup Now</a></h4>
     </div>
 </body>
 
