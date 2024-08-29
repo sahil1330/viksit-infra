@@ -32,9 +32,7 @@ if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true)
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="index.php">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
+        
         <?php
 
         if ($criticloggedIn || $companyloggedIn) {
@@ -48,7 +46,7 @@ if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true)
               <li><a class="dropdown-item" href="logout.php">Logout</a></li>
             </ul>
           </li>
-
+         
           <?php
         } else { ?>
           <li class="nav-item">
@@ -63,3 +61,5 @@ if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true)
     </div>
   </div>
 </nav>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

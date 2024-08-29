@@ -33,6 +33,7 @@
 </div> -->
 <div class="row mb-4">
     <?php
+    require "db/dbconnect.php";
     $sql = "SELECT * FROM blogs";
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
@@ -58,7 +59,7 @@
                         <div class="col-md-8">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $blog_title; ?> </h5>
-                                <p class="card-text"><?php echo substr($blog_desc, 0, 500); ?></p>
+                                <p class="card-text"><?php echo substr($blog_desc, 0, 200); ?></p>
                                 <p class="card-text"><small
                                         class="text-body-secondary"><?php echo $blog_date_created; ?></small></p>
                             </div>

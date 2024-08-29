@@ -43,6 +43,7 @@
         <div class="container">
             <div class="row">
                 <?php
+                if($criticloggedIn || $companyloggedIn){
                 $commentsql = "Select * from comments where blogId='$blogid'";
                 $result = mysqli_query($conn, $commentsql);
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -72,6 +73,7 @@
                         </div>
                     </div><?php
                 }
+            }
                 ?>
             </div>
         </div>
