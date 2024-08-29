@@ -33,6 +33,7 @@
 </div> -->
 <div class="row mb-4">
     <?php
+    require "db/dbconnect.php";
     $sql = "SELECT * FROM blogs";
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
