@@ -18,7 +18,9 @@
     <h1 class="text-center my-4">Create Blog</h1>
     <div class="container my-4">
         
-    
+        <h2>Title</h2>
+        <h6>date </h6> 
+        <img src="assets/blog/blogid1/wp7179243-anime-rain-4k-wallpapers.jpg" alt="" height="360" width="640">
 
         <?php include 'components/footer.php'; ?>
 
