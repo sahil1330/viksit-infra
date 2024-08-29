@@ -37,7 +37,7 @@ if (isset($_SESSION['companyloggedin']) && $_SESSION['companyloggedin'] == true)
         </li>
         <?php
 
-        if ($loggedIn) {
+        if ($criticloggedIn || $companyloggedIn) {
           ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
