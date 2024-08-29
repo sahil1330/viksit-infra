@@ -15,13 +15,17 @@
 <body>
     <?php include 'components/navbar.php'; ?>
     <?php
+    $showAlert = false;
+    $showError = false;
     if ($companyloggedIn) {
         require 'db/dbconnect.php';
         if (isset($_POST['create-blog'])) {
             $blog_title = $_POST['blog-title'];
+            $blog_criteria = $_POST['blog-criteria'];
             $blog_location = $_POST['blog-location'];
             $blgo_desc = $_POST['blog-desc'];
             $blog_img = $_FILES['blog-img']['name'];
+            $blog_owner = $username;
             $blog_img_temp = $_FILES['blog-img']['tmp_name'];
             $blog_img_size = $_FILES['blog-img']['size'];
             $blog_img_error = $_FILES['blog-img']['error'];
@@ -35,20 +39,23 @@
                         $blog_img_name_new = $username . uniqid('', true) . "." . $blog_img_actual_ext;
                         $blog_img_destination = 'assets/images/blog-images/' . $blog_img_name_new;
                         move_uploaded_file($blog_img_temp, $blog_img_destination);
-                        $sql = "INSERT into blogs";
+                        $sql = "INSERT INTO blogs (blog_title, blog_desc, criteria, blog_location, blog_image, owner, isPublished, createdAt) VALUES (?, ?, ?, ?, ?, ?, 1, current_timestamp())";
+                        $stmt = mysqli_prepare($conn, $sql);
+                        mysqli_stmt_bind_param($stmt, "sssss", $blog_title, $blog_desc, $blog_criteria, $blog_location, $blog_img_name_new, $blog_owner);
+                        if (mysqli_stmt_execute($stmt)) {
+                            $showAlert = "Blog created successfully";
+                        } else {
+                            $showError = "Failed to create blog";
+                        }
+                        mysqli_stmt_close($stmt);
                     } else {
-                        echo "File size too large";
+                        $showError = "File size too large";
                     }
+                } else {
+                    $showError = "Error uploading file";
                 }
-            }
-            $blog_img_folder = "uploads/" . $blog_img;
-            move_uploaded_file($blog_img_temp, $blog_img_folder);
-            $sql = "INSERT INTO `blogs` (`blog_title`, `blog_location`, `blog_desc`, `blog_img`) VALUES ('$blog_title', '$blog_location', '$blog_desc', '$blog_img_folder')";
-            $result = mysqli_query($conn, $sql);
-            if ($result) {
-                echo "Blog created successfully";
             } else {
-                echo "Failed to create blog";
+                $showError = "File in invalid format";
             }
         } else {
             echo "Please fill the form and submit";

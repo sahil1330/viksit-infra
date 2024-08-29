@@ -24,3 +24,4 @@ ADD COLUMN updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP;
 Select * from documents;
 DESC blogs;
 ALTER TABLE blogs ADD COLUMN blog_location varchar(255), RENAME COLUMN blo_image TO blog_image;
+ALTER TABLE blogs ADD COLUMN owner varchar(255);
