@@ -1,1 +1,1 @@
-Error in register-critic.php - Duplicate entry '663260826026' for key 'users.aadharCard'Error in register-critic.php - Duplicate entry '663260826026' for key 'users.aadharCard'
+Error in register-critic.php - Duplicate entry '663260826026' for key 'users.aadharCard'Error in register-critic.php - Duplicate entry '663260826026' for key 'users.aadharCard'Error in login-critic.php - Failed opening required '.private/db/dbconnect.php' (include_path='C:\xampp\php\PEAR')

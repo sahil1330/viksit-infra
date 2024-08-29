@@ -12,7 +12,7 @@
 <body>
     <?php include "components/navbar.php" ?>
     <?php
-    if ($adminloggedIn) {
+    if ($companyloggedIn || $adminloggedIn) {
         ?>
         <div class="container mt-4">
             <h1 class="text-center mb-4">Submit Your Bid</h1>

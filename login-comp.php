@@ -1,22 +1,33 @@
 <?php
 try {
     if (isset($_POST['login-comp'])) {
-        require '.private/db/dbconnect.php';
+        require 'db/dbconnect.php';
         $user = $_POST['user'];
         $password = $_POST['password'];
+
+        // Query to fetch the user details
         $sql = "SELECT * FROM users WHERE username='$user' OR email='$user' OR pancard='$user'";
         $result = $conn->query($sql);
+
+        // Check if exactly one user found
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
+
+            // Verify the password
             if (password_verify($password, $row['password'])) {
                 session_start();
+
+                // Set session variables using the data from the database
                 $_SESSION["companyloggedin"] = true;
-                $_SESSION['username'] = $company_username;
-                $_SESSION['Name'] = $company_name;
-                $_SESSION['role'] = $role;
-                $_SESSION['email'] = $company_email;
-                $_SESSION['company_marks'] = $company_marks;
+                $_SESSION['username'] = $row['username'];
+                $_SESSION['Name'] = $row['Name']; // Assuming 'Name' is a column in your table
+                $_SESSION['role'] = $row['role']; // Assuming 'role' is a column in your table
+                $_SESSION['email'] = $row['email'];
+                $_SESSION['company_marks'] = $row['company_marks']; // Assuming 'company_marks' is a column in your table
+
+                // Redirect to the index page
                 header('location: index.php');
+                exit();
             } else {
                 echo "Invalid credentials";
             }
@@ -25,16 +36,11 @@ try {
         }
     }
 } catch (\Throwable $th) {
-    // error message to be logged
+    // Log error message to file
     $error_message = "Error in login-critic.php - " . $th->getMessage();
-
-    // path of the log file where errors need to be logged
     $log_file = "./my-errors.log";
-
-    // logging error message to given log file
     error_log($error_message, 3, $log_file);
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
