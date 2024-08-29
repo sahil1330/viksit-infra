@@ -30,7 +30,7 @@ if (isset($_POST['register-comp'])) {
         $tech_record_ext = explode('.', $tech_record);
         $tech_record_actual_ext = strtolower(end($tech_record_ext));
         $allowed_extensions = array('jpg', 'jpeg', 'png', 'pdf');
-        if (in_array($fin_record_actual_ext, $allowed_extensions) && in_array($tech_record_actual_ext, $allowed_extensions)) {
+        if (in_array(strtolower($fin_record_actual_ext), $allowed_extensions) && in_array($tech_record_actual_ext, $allowed_extensions)) {
             if ($fin_record_error === 0 && $tech_record_error === 0) {
                 if ($fin_record_size < 10000000 && $tech_record_size < 10000000) {
                     $fin_record_name_new = $company_username . "-financial-records." . $fin_record_actual_ext;

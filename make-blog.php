@@ -14,36 +14,70 @@
 
 <body>
     <?php include 'components/navbar.php'; ?>
-    <h1 class="text-center my-4">Create Blogg</h1>
+    <?php
+    if ($companyloggedIn) {
+        require 'db/dbconnect.php';
+        if (isset($_POST['create-blog'])) {
+            $blog_title = $_POST['blog-title'];
+            $blog_location = $_POST['blog-location'];
+            $blgo_desc = $_POST['blog-desc'];
+            $blog_img = $_FILES['blog-img']['name'];
+            $blog_img_temp = $_FILES['blog-img']['tmp_name'];
+            $blog_img_size = $_FILES['blog-img']['size'];
+            $blog_img_error = $_FILES['blog-img']['error'];
+            $blog_img_type = $_FILES['blog-img']['type'];
+            $blog_img_ext = explode('.', $blog_img);
+            $blog_img_actual_ext = strtolower(end($blog_img_ext));
+            $allowed_extensions = array('.jpg', '.jpeg', '.png', '.webp', '.avif');
+            if (in_array(strtolower($blog_img_actual_ext), $allowed_extensions)) {
+                if ($blog_img_error === 0) {
+                    if ($blog_img_size < 10000000) {
+                        $blog_img = $username . uniqid('', true) . "." . $blog_img_actual_ext;
+                        
+                    } else {
+                        echo "File size too large";
+                    }
+                }
+            }
+            $blog_img_folder = "uploads/" . $blog_img;
+            move_uploaded_file($blog_img_temp, $blog_img_folder);
+            $sql = "INSERT INTO `blogs` (`blog_title`, `blog_location`, `blog_desc`, `blog_img`) VALUES ('$blog_title', '$blog_location', '$blog_desc', '$blog_img_folder')";
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                echo "Blog created successfully";
+            } else {
+                echo "Failed to create blog";
+            }
+        } else {
+            echo "Please fill the form and submit";
+        }
+    }
+    ?>
+    <h1 class="text-center my-4">Create Blog</h1>
     <div class="container my-4">
-        <form action="create-blog">
-        
+        <form action="" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-            <label for="blog title">Enter your Blog title: </label>
-            <input type="text" class="form-control col-md-6" id="blog-title">
-            <label for="blog title">Location: </label>
-            <input type="text" class="form-control col-md-6" id="blog-location"><br>
+                <label for="blog title">Enter your Blog title: </label>
+                <input type="text" class="form-control col-md-6" id="blog-title" name="blog-title"><br>
+                <label for="blog title">Location: </label>
+                <input type="text" class="form-control col-md-6" id="blog-location" name="blog-location"><br>
             </div>
-
-
             <!-- <label for="blog-short-description (optional)">Enter your Blog description: </label>
             <input type="text" class="form-control" id="blog-title"><br> -->
-
-            <label for="blog-contain">Enter your contain </label>
-            <textarea class="form-control"  rows="3" id="blog-content"></textarea>
+            <label for="blog-desc">Enter your description: </label>
+            <textarea class="form-control" rows="3" id="blog-desc" name="blog-desc"></textarea>
             <br>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile" id="blog-img">
-                <label class="custom-file-label" for="customFile">Upload imgs</label>
+            <div class="input-group mb-3">
+                <input type="file" class="form-control" id="blog-img" name="blog-img">
+                <label class="input-group-text" for="blog-img">Upload</label>
             </div>
-
             <br>
-          <input type="submit">
+            <button type="submit" name="create-blog" class="btn btn-primary">Create</button>
         </form>
 
-            <?php include 'components/footer.php'; ?>
+        <?php include 'components/footer.php'; ?>
 
-        </div>
+    </div>
     </div>
 </body>
 

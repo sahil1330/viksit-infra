@@ -64,7 +64,7 @@
     if ($companyloggedIn) {
         ?>
         <div style="display: flex; justify-content: center;">
-            <a href="upload_blog.php">
+            <a href="make-blog.php">
                 <button type="button" class="btn btn-primary mx-auto">Upload Blog</button>
             </a>
         </div>
