@@ -121,35 +121,7 @@
         </div>
     </div>
 
-    <div class="side-bar my-4 ">
-        <h3>Recent Blogs</h3>
-        <div class="container">
-            <div class="row">
-                <?php
-                
-                echo'
-                <div class="col-md-3">
-                    <img src="assets/blog/blogid1/1703680099New Project (8).jpg" alt="" height="120" width="240">
-                    <h5>Blog Title</h5>
-                    <h6>description...........</h6>
-                    <h6>date </h6>
-                </div>';
-                ?>
-                <div class="col-md-3">
-                    <img src="assets/blog/blogid1/1703680099New Project (8).jpg" alt="" height="120" width="240">
-                    <h5>Blog Title</h5>
-                    <h6>description...........</h6>
-                    <h6>date </h6>
-                </div>
-                <div class="col-md-3">
-                    <img src="assets/blog/blogid1/1703680099New Project (8).jpg" alt="" height="120" width="240">
-                    <h5>Blog Title</h5>
-                    <h6>description...........</h6>
-                    <h6>date </h6>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 
 

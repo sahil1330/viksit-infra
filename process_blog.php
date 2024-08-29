@@ -6,17 +6,17 @@ $criteria = $_POST['criteria'];
 $blog_title = $_POST['blog_title'];
 $blog_desc = $_POST['blog_desc'];
 $blog_location = $_POST['blog_location'];
-$owner = $_POST['owner'];
-$isPublished = isset($_POST['isPublished']) ? 1 : 0;
+$owner = "admin";
+$isPublished = 1;
 
 // Handle file upload
 $blog_image = '';
-if (isset($_FILES['blog_image']) && $_FILES['blog_image']['error'] == 0) {
-    $upload_dir = 'assets/images/';
-    $upload_file = $upload_dir . basename($_FILES['blog_image']['name']);
+if (isset($_FILES['blog-img']) && $_FILES['blog-img']['error'] == 0) {
+    $upload_dir = 'assets/images/blog-images/';
+    $upload_file = $upload_dir . basename($_FILES['blog-img']['name']);
     
-    if (move_uploaded_file($_FILES['blog_image']['tmp_name'], $upload_file)) {
-        $blog_image = $_FILES['blog_image']['name'];
+    if (move_uploaded_file($_FILES['blog-img']['tmp_name'], $upload_file)) {
+        $blog_image = $_FILES['blog-img']['name'];
     } else {
         echo "File upload failed.";
         exit;
@@ -32,6 +32,7 @@ $stmt->bind_param("ssssiss", $criteria, $blog_title, $blog_desc, $blog_image, $i
 
 if ($stmt->execute()) {
     echo "Blog added successfully!";
+    header("location: index.html");
 } else {
     echo "Error: " . $stmt->error;
 }
