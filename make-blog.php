@@ -32,8 +32,10 @@
             if (in_array(strtolower($blog_img_actual_ext), $allowed_extensions)) {
                 if ($blog_img_error === 0) {
                     if ($blog_img_size < 10000000) {
-                        $blog_img = $username . uniqid('', true) . "." . $blog_img_actual_ext;
-                        
+                        $blog_img_name_new = $username . uniqid('', true) . "." . $blog_img_actual_ext;
+                        $blog_img_destination = 'assets/images/blog-images/' . $blog_img_name_new;
+                        move_uploaded_file($blog_img_temp, $blog_img_destination);
+                        $sql = "INSERT into blogs";
                     } else {
                         echo "File size too large";
                     }
@@ -59,6 +61,8 @@
             <div class="form-group">
                 <label for="blog title">Enter your Blog title: </label>
                 <input type="text" class="form-control col-md-6" id="blog-title" name="blog-title"><br>
+                <label for="blog title">Enter your Blog Criteria: </label>
+                <input type="text" class="form-control col-md-6" id="blog-criteria" name="blog-criteria"><br>
                 <label for="blog title">Location: </label>
                 <input type="text" class="form-control col-md-6" id="blog-location" name="blog-location"><br>
             </div>
