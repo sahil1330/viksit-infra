@@ -75,7 +75,7 @@
     <h1 class="text-center my-4">INFRA TRENDS</h1>
     <div class="container my-4">
 
-            <?php include "components/blogs.php"; ?>
+        <?php include "components/blogs.php"; ?>
 
     </div>
     <?php include 'components/footer.php'; ?>
